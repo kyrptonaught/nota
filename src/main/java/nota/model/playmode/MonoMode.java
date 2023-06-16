@@ -23,6 +23,6 @@ public class MonoMode extends ChannelMode {
 		else {
 			pitch = NoteUtils.getPitchInOctave(note);
 		}
-		player.playSound(InstrumentUtils.getInstrument(note.getInstrument()), SoundCategory.RECORDS, volume, pitch);
+		player.playSound(InstrumentUtils.getInstrument(note, song.getFirstCustomInstrumentIndex(), song.getCustomInstruments(), doTranspose), SoundCategory.RECORDS, volume, pitch);
 	}
 }

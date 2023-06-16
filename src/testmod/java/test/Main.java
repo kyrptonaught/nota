@@ -58,11 +58,15 @@ public class Main implements ModInitializer {
 				if(player != null && songPlayer == null) {
 					var world = player.world;
 					if(!world.isClient) {
-						songPlayer = new PositionSongPlayer(new Playlist(vitality, home, bad_apple, rush_e, tetris_b_theme, merry_go_round_of_life), world);
+						//songPlayer = new PositionSongPlayer(new Playlist(vitality, home, bad_apple, rush_e, tetris_b_theme, merry_go_round_of_life), world);
+						//Song mega = NBSDecoder.parse(new File("songs/octavetest-sweep.nbs"));
+						Song mega = NBSDecoder.parse(new File("songs/test2.nbs"));
+						songPlayer = new PositionSongPlayer(mega, world);
 						songPlayer.setId(new Identifier("test:position"));
 						songPlayer.setBlockPos(player.getBlockPos());
 						songPlayer.addPlayer(player);
 						songPlayer.setRepeatMode(RepeatMode.NONE);
+						//songPlayer.setEnable10Octave(true);
 						songPlayer.setPlaying(true);
 					}
 				}
@@ -70,7 +74,8 @@ public class Main implements ModInitializer {
 			}));
 			dispatcher.register(CommandManager.literal("toggle-song").executes(context -> {
 				if(songPlayer != null) {
-					songPlayer.setPlaying(!songPlayer.isPlaying());
+					songPlayer.destroy();
+					songPlayer = null;
 				}
 				return 1;
 			}));

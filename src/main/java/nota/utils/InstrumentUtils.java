@@ -1,5 +1,8 @@
 package nota.utils;
 
+import net.minecraft.util.Identifier;
+import nota.model.CustomInstrument;
+import nota.model.Note;
 import nota.model.Sound;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.sound.SoundEvent;
@@ -9,17 +12,20 @@ import net.minecraft.sound.SoundEvent;
  */
 public class InstrumentUtils {
 
-	/**
-	 * Returns the org.bukkit.Sound enum for the current server version
-	 *
-	 * @param instrument
-	 * @return Sound enum (for the current server version)
-	 * @see Sound
-	 */
-	public static SoundEvent getInstrument(byte instrument) {
-		return Sound.getFromBukkitName(getInstrumentName(instrument));
-	}
+	public static SoundEvent getInstrument(Note note, int firstCustomInstrument, CustomInstrument[] customInstruments, boolean doTranspose) {
+		String instrumentName;
+		if (note.getInstrument() > firstCustomInstrument -1) {
+			instrumentName = customInstruments[note.getInstrument() - (firstCustomInstrument)].getName();
+		} else {
+			instrumentName = getSoundNameByInstrument(note.getInstrument());
+		}
 
+		if (!doTranspose) {
+			instrumentName = warpNameOutOfRange(instrumentName, note.getKey(), note.getPitch());
+		}
+
+		return SoundEvent.of(new Identifier(instrumentName));
+	}
 	/**
 	 * Add suffix to vanilla instrument to use sound outside 2 octave range
 	 *
