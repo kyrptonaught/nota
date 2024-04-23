@@ -2,7 +2,6 @@ package nota.player;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-
 import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;
@@ -26,9 +25,9 @@ public class RadioSongPlayer extends SongPlayer {
 	public void playTick(PlayerEntity player, int tick) {
 		byte playerVolume = Nota.getPlayerVolume(player);
 
-		for(Layer layer : song.getLayerHashMap().values()) {
+		for (Layer layer : song.getLayerHashMap().values()) {
 			Note note = layer.getNote(tick);
-			if(note == null) {
+			if (note == null) {
 				continue;
 			}
 

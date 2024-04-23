@@ -1,8 +1,8 @@
 package nota.event;
 
-import nota.player.SongPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import nota.player.SongPlayer;
 
 public interface SongTickEvent {
 

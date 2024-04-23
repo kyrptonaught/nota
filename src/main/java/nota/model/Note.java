@@ -2,7 +2,6 @@ package nota.model;
 
 /**
  * Represents a note played; contains the instrument and the key
- *
  */
 public class Note {
 
@@ -93,8 +92,8 @@ public class Note {
 	 * @param velocity number from 0 to 100
 	 */
 	public void setVelocity(byte velocity) {
-		if(velocity < 0) velocity = 0;
-		if(velocity > 100) velocity = 100;
+		if (velocity < 0) velocity = 0;
+		if (velocity > 100) velocity = 100;
 
 		this.velocity = velocity;
 	}

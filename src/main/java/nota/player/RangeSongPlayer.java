@@ -1,7 +1,6 @@
 package nota.player;
 
 import net.minecraft.entity.player.PlayerEntity;
-
 import nota.model.Playlist;
 import nota.model.Song;
 

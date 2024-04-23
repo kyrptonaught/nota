@@ -1,8 +1,8 @@
 package nota.player;
 
-import nota.Nota;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Playlist;
@@ -52,32 +52,30 @@ public class EntitySongPlayer extends RangeSongPlayer {
 
 	@Override
 	public void playTick(PlayerEntity player, int tick) {
-		if(!entity.isAlive()) {
-			if(autoDestroy) {
+		if (!entity.isAlive()) {
+			if (autoDestroy) {
 				destroy();
-			}
-			else {
+			} else {
 				setPlaying(false);
 			}
 		}
-		if(!player.getWorld().getRegistryKey().equals(entity.getWorld().getRegistryKey())) {
+		if (!player.getWorld().getRegistryKey().equals(entity.getWorld().getRegistryKey())) {
 			return; // not in same world
 		}
 
 		byte playerVolume = Nota.getPlayerVolume(player);
 
-		for(Layer layer : song.getLayerHashMap().values()) {
+		for (Layer layer : song.getLayerHashMap().values()) {
 			Note note = layer.getNote(tick);
-			if(note == null) continue;
+			if (note == null) continue;
 
 			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
-					* ((1F / 16F) * getDistance());
+				* ((1F / 16F) * getDistance());
 
-			if(isInRange(player)) {
+			if (isInRange(player)) {
 				playerList.put(player.getUuid(), true);
 				channelMode.play(player, entity.getBlockPos(), song, layer, note, volume, !enable10Octave);
-			}
-			else {
+			} else {
 				playerList.put(player.getUuid(), false);
 			}
 		}

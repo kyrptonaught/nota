@@ -56,12 +56,11 @@ public enum Sound {
 	}
 
 	private SoundEvent getSound() {
-		if(cached != null) return cached;
-		for(String name : versionDependentNames) {
+		if (cached != null) return cached;
+		for (String name : versionDependentNames) {
 			try {
 				return cached = getSound(name);
-			}
-			catch(IllegalArgumentException ignore2) {
+			} catch (IllegalArgumentException ignore2) {
 				// try next
 			}
 		}
@@ -69,7 +68,7 @@ public enum Sound {
 	}
 
 	private SoundEvent getSound(String name) {
-		switch(name) {
+		switch (name) {
 			case "NOTE_PIANO", "BLOCK_NOTE_HARP", "BLOCK_NOTE_BLOCK_HARP" -> {
 				return bullshit(SoundEvents.BLOCK_NOTE_BLOCK_HARP);
 			}
@@ -131,7 +130,7 @@ public enum Sound {
 	 * @return corresponding {@link SoundEvent}
 	 */
 	public SoundEvent bukkitSound() {
-		if(getSound() != null) {
+		if (getSound() != null) {
 			return getSound();
 		}
 		throw new IllegalArgumentException("Found no valid sound name for " + this.name());
@@ -139,8 +138,8 @@ public enum Sound {
 
 	static {
 		// Cache sound access.
-		for(Sound sound : values())
-			for(String soundName : sound.versionDependentNames)
+		for (Sound sound : values())
+			for (String soundName : sound.versionDependentNames)
 				cachedSoundMap.put(soundName.toUpperCase(), sound.getSound());
 	}
 }

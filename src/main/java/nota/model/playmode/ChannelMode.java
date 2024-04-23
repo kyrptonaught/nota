@@ -1,10 +1,10 @@
 package nota.model.playmode;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Song;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * Decides how is {@link Note} played to {@link PlayerEntity}

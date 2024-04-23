@@ -1,5 +1,6 @@
 package nota.utils;
 
+import net.minecraft.util.math.MathHelper;
 import nota.model.Note;
 
 public class NoteUtils {
@@ -9,7 +10,7 @@ public class NoteUtils {
 	static {
 		pitches = new float[2401];
 
-		for(int i = 0; i < 2401; i++) {
+		for (int i = 0; i < 2401; i++) {
 			pitches[i] = (float) Math.pow(2, (i - 1200d) / 1200d);
 		}
 	}
@@ -52,13 +53,16 @@ public class NoteUtils {
 		// 57 base_1
 		// 81 base_2
 		// 105 base_3
-		if(key < 9) key -= -15;
-		else if(key < 33) key -= 9;
-		else if(key < 57) key -= 33;
-		else if(key < 81) key -= 57;
-		else if(key < 105) key -= 81;
+		if (key < 9) key -= -15;
+		else if (key < 33) key -= 9;
+		else if (key < 57) key -= 33;
+		else if (key < 81) key -= 57;
+		else if (key < 105) key -= 81;
 
-		return pitches[key * 100 + pitch];
+		int note = key * 100 + pitch;
+
+		note = MathHelper.clamp(note, 0, pitches.length);
+		return pitches[note];
 	}
 
 	public static byte applyPitchToKey(byte key, short pitch) {
@@ -87,8 +91,8 @@ public class NoteUtils {
 		// Apply key to pitch
 		pitch += key * 100;
 
-		while(pitch < 3300) pitch += 1200;
-		while(pitch > 5700) pitch -= 1200;
+		while (pitch < 3300) pitch += 1200;
+		while (pitch > 5700) pitch -= 1200;
 
 		pitch -= 3300;
 
@@ -105,7 +109,7 @@ public class NoteUtils {
 	public static boolean isOutOfRange(byte key, short pitch) {
 		key = applyPitchToKey(key, pitch);
 
-		if(key < 33) return true;
+		if (key < 33) return true;
 		else return key >= 57;
 	}
 

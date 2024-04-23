@@ -1,11 +1,11 @@
 package nota.utils;
 
+import net.minecraft.block.enums.Instrument;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import nota.model.CustomInstrument;
 import nota.model.Note;
 import nota.model.Sound;
-import net.minecraft.block.enums.Instrument;
-import net.minecraft.sound.SoundEvent;
 
 /**
  * Various methods for working with instruments
@@ -14,7 +14,7 @@ public class InstrumentUtils {
 
 	public static SoundEvent getInstrument(Note note, int firstCustomInstrument, CustomInstrument[] customInstruments, boolean doTranspose) {
 		String instrumentName;
-		if (note.getInstrument() > firstCustomInstrument -1) {
+		if (note.getInstrument() > firstCustomInstrument - 1) {
 			instrumentName = customInstruments[note.getInstrument() - (firstCustomInstrument)].getName();
 		} else {
 			instrumentName = getSoundNameByInstrument(note.getInstrument());
@@ -24,8 +24,12 @@ public class InstrumentUtils {
 			instrumentName = warpNameOutOfRange(instrumentName, note.getKey(), note.getPitch());
 		}
 
+		instrumentName = instrumentName.toLowerCase().replaceAll("[^a-z0-9_.-:]", "");
+		//instrumentName = instrumentName.toLowerCase();
+		//System.out.println(instrumentName);
 		return SoundEvent.of(new Identifier(instrumentName));
 	}
+
 	/**
 	 * Add suffix to vanilla instrument to use sound outside 2 octave range
 	 *
@@ -54,12 +58,12 @@ public class InstrumentUtils {
 		// 57 base_1
 		// 81 base_2
 		// 105 base_3
-		if(key < 9) name += "_-2";
-		else if(key < 33) name += "_-1";
+		if (key < 9) name += "_-2";
+		else if (key < 33) name += "_-1";
 		else //noinspection StatementWithEmptyBody
-			if(key < 57) ;
-			else if(key < 81) name += "_1";
-			else if(key < 105) name += "_2";
+			if (key < 57) ;
+			else if (key < 81) name += "_1";
+			else if (key < 105) name += "_2";
 		return name;
 	}
 
@@ -71,7 +75,7 @@ public class InstrumentUtils {
 	 */
 	public static String getSoundNameByInstrument(byte instrument) {
 		//noinspection RedundantSuppression
-		switch(instrument) {
+		switch (instrument) {
 			case 0:
 				//noinspection DuplicateBranchesInSwitch
 				return "minecraft:block.note_block.harp";
@@ -120,7 +124,7 @@ public class InstrumentUtils {
 	 * @see Sound
 	 */
 	public static String getInstrumentName(byte instrument) {
-		return switch(instrument) {
+		return switch (instrument) {
 			case 1 -> "BLOCK_NOTE_BLOCK_BASS";
 			case 2 -> "BLOCK_NOTE_BLOCK_BASEDRUM";
 			case 3 -> "BLOCK_NOTE_BLOCK_SNARE";
@@ -147,7 +151,7 @@ public class InstrumentUtils {
 	 * @return Instrument enum (for the current server version)
 	 */
 	public static Instrument getBukkitInstrument(byte instrument) {
-		switch(instrument) {
+		switch (instrument) {
 			case 0:
 				return Instrument.HARP;
 			case 1:

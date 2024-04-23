@@ -32,8 +32,8 @@ public class Song implements Cloneable {
 	 */
 	public Song(Song other) {
 		this(other.getSpeed(), other.getLayerHashMap(), other.getSongHeight(),
-				other.getLength(), other.getTitle(), other.getAuthor(), other.getOriginalAuthor(),
-				other.getDescription(), other.getPath(), other.getFirstCustomInstrumentIndex(), other.getCustomInstruments(), other.isStereo);
+			other.getLength(), other.getTitle(), other.getAuthor(), other.getOriginalAuthor(),
+			other.getDescription(), other.getPath(), other.getFirstCustomInstrumentIndex(), other.getCustomInstruments(), other.isStereo);
 	}
 
 	public Song(float speed, HashMap<Integer, Layer> layerHashMap,

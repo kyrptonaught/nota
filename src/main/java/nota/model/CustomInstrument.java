@@ -7,9 +7,9 @@ import net.minecraft.sound.SoundEvent;
  */
 public class CustomInstrument {
 
-	private byte index;
-	private String name;
-	private String soundFileName;
+	private final byte index;
+	private final String name;
+	private final String soundFileName;
 	private SoundEvent sound;
 
 	/**
@@ -23,7 +23,7 @@ public class CustomInstrument {
 		this.index = index;
 		this.name = name;
 		this.soundFileName = soundFileName.replaceAll(".ogg", "");
-		if(this.soundFileName.equalsIgnoreCase("pling")) {
+		if (this.soundFileName.equalsIgnoreCase("pling")) {
 			this.sound = Sound.NOTE_PLING.bukkitSound();
 		}
 	}

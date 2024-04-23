@@ -1,16 +1,16 @@
 package nota.player;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
 import nota.Nota;
-import nota.event.SongStartEvent;
 import nota.event.SongEndEvent;
+import nota.event.SongStartEvent;
 import nota.event.SongTickEvent;
 import nota.model.Playlist;
 import nota.model.RepeatMode;
 import nota.model.Song;
 import nota.model.playmode.ChannelMode;
 import nota.model.playmode.MonoMode;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,7 +54,7 @@ public abstract class SongPlayer {
 		this.api = Nota.getAPI();
 		this.song = playlist.get(this.currentSongIndex);
 		this.songDelay = song.getDelay() * 50.0f;
-		restartTask((long)this.songDelay);
+		restartTask((long) this.songDelay);
 	}
 
 	/**
@@ -78,60 +78,58 @@ public abstract class SongPlayer {
 	}
 
 	private void play() {
-		for(UUID uuid : playerList.keySet()) {
+		for (UUID uuid : playerList.keySet()) {
 			PlayerEntity player = Nota.getAPI().getServer().getPlayerManager().getPlayer(uuid);
-			if(player != null) {
+			if (player != null) {
 				this.playTick(player, tick);
 			}
 		}
 	}
 
 	private void onTaskRun(TimerTask task) {
-		if(this.destroyed || Nota.getAPI().isDisabling()) {
+		if (this.destroyed || Nota.getAPI().isDisabling()) {
 			task.cancel();
 		}
-		if(playing) {
+		if (playing) {
 			tick++;
-			if(tick == 0) {
+			if (tick == 0) {
 				SongStartEvent.EVENT.invoker().onSongStart(this);
 			}
-			if(tick > song.getLength()) {
+			if (tick > song.getLength()) {
 				SongEndEvent.EVENT.invoker().onSongEnd(this);
 				tick = -1;
 
-				if(playlist.hasNext(currentSongIndex)) {
+				if (playlist.hasNext(currentSongIndex)) {
 					currentSongIndex++;
 					song = playlist.get(currentSongIndex);
 					songDelay = song.getDelay() * 50.0f;
 					this.playSong(currentSongIndex);
-					this.restartTask((long)this.songDelay);
+					this.restartTask((long) this.songDelay);
 					task.cancel();
 					return;
-				}
-				else {
+				} else {
 					currentSongIndex = 0;
 					song = playlist.get(currentSongIndex);
 					songDelay = song.getDelay() * 50.0f;
-					if(repeat.equals(RepeatMode.ALL)) {
-						this.restartTask((long)this.songDelay);
+					if (repeat.equals(RepeatMode.ALL)) {
+						this.restartTask((long) this.songDelay);
 						task.cancel();
 						return;
-					}
-					else {
-						this.restartTask((long)this.songDelay);
+					} else {
+						this.restartTask((long) this.songDelay);
 						task.cancel();
 					}
 				}
 				playing = false;
-				if(this.autoDestroy) {
+				if (this.autoDestroy) {
 					task.cancel();
 				}
 				return;
 			}
 			SongTickEvent.EVENT.invoker().onSongTick(this);
-			for(UUID uuid : playerList.keySet()) {
+			for (UUID uuid : playerList.keySet()) {
 				PlayerEntity player = Nota.getAPI().getServer().getPlayerManager().getPlayer(uuid);
-				if(player != null) {
+				if (player != null) {
 					this.playTick(player, tick);
 				}
 			}
@@ -161,7 +159,6 @@ public abstract class SongPlayer {
 
 	/**
 	 * Sets unique id for this SongPlayer
-	 *
 	 */
 	public void setId(Identifier id) {
 		this.id = id;
@@ -192,10 +189,10 @@ public abstract class SongPlayer {
 	 * @param playerUuid player's uuid
 	 */
 	public void addPlayer(UUID playerUuid) {
-		if(!this.playerList.containsKey(playerUuid)) {
+		if (!this.playerList.containsKey(playerUuid)) {
 			this.playerList.put(playerUuid, false);
 			ArrayList<SongPlayer> songs = Nota.getSongPlayersByPlayer(playerUuid);
-			if(songs == null) {
+			if (songs == null) {
 				songs = new ArrayList<>();
 			}
 			songs.add(this);
@@ -292,14 +289,14 @@ public abstract class SongPlayer {
 	 */
 	public void removePlayer(UUID playerUuid) {
 		playerList.remove(playerUuid);
-		if(Nota.getSongPlayersByPlayer(playerUuid) == null) {
+		if (Nota.getSongPlayersByPlayer(playerUuid) == null) {
 			return;
 		}
 		ArrayList<SongPlayer> songs = new ArrayList<>(
-				Nota.getSongPlayersByPlayer(playerUuid));
+			Nota.getSongPlayersByPlayer(playerUuid));
 		songs.remove(this);
 		Nota.setSongPlayersByPlayer(playerUuid, songs);
-		if(this.playerList.isEmpty() && this.autoDestroy) {
+		if (this.playerList.isEmpty() && this.autoDestroy) {
 			destroy();
 		}
 	}
@@ -319,10 +316,9 @@ public abstract class SongPlayer {
 	 * @param volume (0-100)
 	 */
 	public void setVolume(byte volume) {
-		if(volume > 100) {
+		if (volume > 100) {
 			volume = 100;
-		}
-		else if(volume < 0) {
+		} else if (volume < 0) {
 			volume = 0;
 		}
 		this.volume = volume;
@@ -369,7 +365,7 @@ public abstract class SongPlayer {
 	 * @param index song index
 	 */
 	public void playSong(int index) {
-		if(this.playlist.exist(index)) {
+		if (this.playlist.exist(index)) {
 			this.song = this.playlist.get(index);
 			this.currentSongIndex = index;
 			this.tick = -1;

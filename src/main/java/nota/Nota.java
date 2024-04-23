@@ -1,14 +1,16 @@
 package nota;
 
-import nota.player.SongPlayer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import nota.player.SongPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -64,10 +66,10 @@ public class Nota implements ModInitializer {
 	 */
 	public static void stopPlaying(UUID playerUuid) {
 		ArrayList<SongPlayer> songs = instance.playingSongs.get(playerUuid);
-		if(songs == null) {
+		if (songs == null) {
 			return;
 		}
-		for(SongPlayer songPlayer : songs) {
+		for (SongPlayer songPlayer : songs) {
 			songPlayer.removePlayer(playerUuid);
 		}
 	}
@@ -86,7 +88,7 @@ public class Nota implements ModInitializer {
 	 * Sets the volume for a given Player
 	 *
 	 * @param playerUuid player's uuid
-	 * @param volume volume
+	 * @param volume     volume
 	 */
 	public static void setPlayerVolume(UUID playerUuid, byte volume) {
 		instance.playerVolume.put(playerUuid, volume);
@@ -109,10 +111,9 @@ public class Nota implements ModInitializer {
 	 * @return volume (byte)
 	 */
 	public static byte getPlayerVolume(UUID playerUuid) {
-		if(instance.playerVolume.containsKey(playerUuid)) {
+		if (instance.playerVolume.containsKey(playerUuid)) {
 			return instance.playerVolume.get(playerUuid);
-		}
-		else {
+		} else {
 			instance.playerVolume.put(playerUuid, (byte) 100);
 			return 100;
 		}
@@ -151,5 +152,8 @@ public class Nota implements ModInitializer {
 		Nota.instance = this;
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> Nota.getAPI().server = server);
 		ServerLifecycleEvents.SERVER_STOPPING.register(server -> Nota.getAPI().disabling = true);
+
+		//NotaCommands.onInitialize();
+		//CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NotaCommands.registerCommands(dispatcher));
 	}
 }

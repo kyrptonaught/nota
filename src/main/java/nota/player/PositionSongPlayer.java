@@ -1,10 +1,9 @@
 package nota.player;
 
-import nota.Nota;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-
 import net.minecraft.world.World;
+import nota.Nota;
 import nota.model.Layer;
 import nota.model.Note;
 import nota.model.Playlist;
@@ -45,24 +44,23 @@ public class PositionSongPlayer extends RangeSongPlayer {
 
 	@Override
 	public void playTick(PlayerEntity player, int tick) {
-		if(!player.getWorld().getRegistryKey().equals(world.getRegistryKey())) {
+		if (!player.getWorld().getRegistryKey().equals(world.getRegistryKey())) {
 			return; // not in same world
 		}
 
 		byte playerVolume = Nota.getPlayerVolume(player);
 
-		for(Layer layer : song.getLayerHashMap().values()) {
+		for (Layer layer : song.getLayerHashMap().values()) {
 			Note note = layer.getNote(tick);
-			if(note == null) continue;
+			if (note == null) continue;
 
 			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
-					* ((1F / 16F) * getDistance());
+				* ((1F / 16F) * getDistance());
 
-			if(isInRange(player)) {
+			if (isInRange(player)) {
 				this.playerList.put(player.getUuid(), true);
 				this.channelMode.play(player, pos, song, layer, note, volume, !enable10Octave);
-			}
-			else {
+			} else {
 				this.playerList.put(player.getUuid(), false);
 			}
 		}
