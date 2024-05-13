@@ -88,7 +88,7 @@ public class NBSDecoder {
 				dataInputStream.readByte(); // max loop count
 				readShort(dataInputStream); // loop start tick
 			}
-			short tick = -1;
+			int tick = -1;
 			while (true) {
 				short jumpTicks = readShort(dataInputStream); // jumps till next tick
 				//System.out.println("Jumps to next tick: " + jumpTicks);
@@ -129,10 +129,6 @@ public class NBSDecoder {
 						new Note(instrument /* instrument */, key/* note */, velocity, panning, pitch),
 						layerHashMap);
 				}
-			}
-
-			if (nbsversion > 0 && nbsversion < 3) {
-				length = tick;
 			}
 
 			for (int i = 0; i < songHeight; i++) {
@@ -178,7 +174,7 @@ public class NBSDecoder {
 				firstcustominstrument += firstcustominstrumentdiff;
 			}
 
-			return new Song(speed, layerHashMap, songHeight, length, title,
+			return new Song(speed, layerHashMap, songHeight, tick, title,
 				author, originalAuthor, description, songFile, firstcustominstrument, customInstrumentsArray, isStereo);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

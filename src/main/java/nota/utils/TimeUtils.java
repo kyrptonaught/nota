@@ -44,7 +44,7 @@ public class TimeUtils {
 		return getTime(format, songPlayer.getSong().getLength(), songPlayer.getSong().getSpeed());
 	}
 
-	private static String getTime(String format, short ticks, float speed) {
+	private static String getTime(String format, int ticks, float speed) {
 		String time = format;
 		long milisTotal = (long) ((ticks / speed) * 1000);
 

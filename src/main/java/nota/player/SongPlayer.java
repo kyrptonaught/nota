@@ -28,7 +28,7 @@ public abstract class SongPlayer {
 
 	public boolean playing = false;
 	protected boolean fading = false;
-	protected short tick = -1;
+	protected int tick = -1;
 	protected Map<UUID, Boolean> playerList = new ConcurrentHashMap<>();
 
 	protected boolean autoDestroy = false;
@@ -260,7 +260,7 @@ public abstract class SongPlayer {
 	 *
 	 * @return current tick
 	 */
-	public short getTick() {
+	public int getTick() {
 		return this.tick;
 	}
 
@@ -269,7 +269,7 @@ public abstract class SongPlayer {
 	 *
 	 * @param tick tick
 	 */
-	public void setTick(short tick) {
+	public void setTick(int tick) {
 		this.tick = tick;
 	}
 

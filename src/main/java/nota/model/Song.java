@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Song implements Cloneable {
 	HashMap<Integer, Layer> layerHashMap;
 	short songHeight;
-	short length;
+	int length;
 	String title;
 	File path;
 	String author;
@@ -37,13 +37,13 @@ public class Song implements Cloneable {
 	}
 
 	public Song(float speed, HashMap<Integer, Layer> layerHashMap,
-				short songHeight, final short length, String title, String author, String originalAuthor,
+				short songHeight, final int length, String title, String author, String originalAuthor,
 				String description, File path, int firstCustomInstrumentIndex, boolean isStereo) {
 		this(speed, layerHashMap, songHeight, length, title, author, originalAuthor, description, path, firstCustomInstrumentIndex, new CustomInstrument[0], isStereo);
 	}
 
 	public Song(float speed, HashMap<Integer, Layer> layerHashMap,
-				short songHeight, final short length, String title, String author, String originalAuthor,
+				short songHeight, final int length, String title, String author, String originalAuthor,
 				String description, File path, int firstCustomInstrumentIndex, CustomInstrument[] customInstruments, boolean isStereo) {
 		this.speed = speed;
 		delay = 20 / speed;
@@ -83,7 +83,7 @@ public class Song implements Cloneable {
 	 *
 	 * @return length of this Song
 	 */
-	public short getLength() {
+	public int getLength() {
 		return length;
 	}
 
