@@ -9,6 +9,7 @@ import nota.model.Song;
  */
 public abstract class RangeSongPlayer extends SongPlayer {
 	private int distance = 16;
+	private boolean fade = true;
 
 	public RangeSongPlayer(Song song) {
 		super(song);
@@ -29,6 +30,15 @@ public abstract class RangeSongPlayer extends SongPlayer {
 
 	public int getDistance() {
 		return distance;
+	}
+
+
+	public void setFade(boolean fade){
+		this.fade =fade;
+	}
+
+	public boolean getFade(){
+		return fade;
 	}
 
 	/**

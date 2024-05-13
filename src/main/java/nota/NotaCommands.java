@@ -65,35 +65,41 @@ public class NotaCommands {
 						.then(CommandManager.literal("BLOCKPOS")
 							.then(CommandManager.argument("blockpos", BlockPosArgumentType.blockPos())
 								.then(CommandManager.argument("distance", IntegerArgumentType.integer(1))
-									.executes(context -> {
-										BlockPos blockPos = BlockPosArgumentType.getBlockPos(context, "blockpos");
-										int distance = IntegerArgumentType.getInteger(context, "distance");
+									.then(CommandManager.argument("fade", BoolArgumentType.bool())
+										.executes(context -> {
+											BlockPos blockPos = BlockPosArgumentType.getBlockPos(context, "blockpos");
+											int distance = IntegerArgumentType.getInteger(context, "distance");
+											boolean fade = BoolArgumentType.getBool(context, "fade");
 
-										Song song = getSong(context);
-										PositionSongPlayer songPlayer = new PositionSongPlayer(song, context.getSource().getWorld());
-										songPlayer.setBlockPos(blockPos);
-										songPlayer.setDistance(distance);
+											Song song = getSong(context);
+											PositionSongPlayer songPlayer = new PositionSongPlayer(song, context.getSource().getWorld());
+											songPlayer.setBlockPos(blockPos);
+											songPlayer.setDistance(distance);
+											songPlayer.setFade(fade);
 
-										primeSongPlayer(songPlayer, context);
-										songPlayer.setPlaying(true);
-										return 1;
-									}))))
+											primeSongPlayer(songPlayer, context);
+											songPlayer.setPlaying(true);
+											return 1;
+										})))))
 						.then(CommandManager.literal("ENTITY")
 							.then(CommandManager.argument("entity", EntityArgumentType.entity())
 								.then(CommandManager.argument("distance", IntegerArgumentType.integer(1))
-									.executes(context -> {
-										Entity entity = EntityArgumentType.getEntity(context, "entity");
-										int distance = IntegerArgumentType.getInteger(context, "distance");
+									.then(CommandManager.argument("fade", BoolArgumentType.bool())
+										.executes(context -> {
+											Entity entity = EntityArgumentType.getEntity(context, "entity");
+											int distance = IntegerArgumentType.getInteger(context, "distance");
+											boolean fade = BoolArgumentType.getBool(context, "fade");
 
-										Song song = getSong(context);
-										EntitySongPlayer songPlayer = new EntitySongPlayer(song);
-										songPlayer.setEntity(entity);
-										songPlayer.setDistance(distance);
+											Song song = getSong(context);
+											EntitySongPlayer songPlayer = new EntitySongPlayer(song);
+											songPlayer.setEntity(entity);
+											songPlayer.setDistance(distance);
+											songPlayer.setFade(fade);
 
-										primeSongPlayer(songPlayer, context);
-										songPlayer.setPlaying(true);
-										return 1;
-									}))))))));
+											primeSongPlayer(songPlayer, context);
+											songPlayer.setPlaying(true);
+											return 1;
+										})))))))));
 		dispatcher.register(CommandManager.literal("stopnbs")
 			.requires((source) -> source.hasPermissionLevel(2))
 			.then(CommandManager.literal("ALL")

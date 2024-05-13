@@ -74,7 +74,7 @@ public class EntitySongPlayer extends RangeSongPlayer {
 
 			if (isInRange(player)) {
 				playerList.put(player.getUuid(), true);
-				channelMode.play(player, entity.getBlockPos(), song, layer, note, volume, !enable10Octave);
+				channelMode.play(player, getFade() ? entity.getBlockPos() : player.getBlockPos(), song, layer, note, volume, !enable10Octave);
 			} else {
 				playerList.put(player.getUuid(), false);
 			}

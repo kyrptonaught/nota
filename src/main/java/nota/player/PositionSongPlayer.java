@@ -59,7 +59,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 
 			if (isInRange(player)) {
 				this.playerList.put(player.getUuid(), true);
-				this.channelMode.play(player, pos, song, layer, note, volume, !enable10Octave);
+				this.channelMode.play(player, getFade() ? pos : player.getBlockPos(), song, layer, note, volume, !enable10Octave);
 			} else {
 				this.playerList.put(player.getUuid(), false);
 			}

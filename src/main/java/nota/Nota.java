@@ -1,6 +1,7 @@
 package nota;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -153,7 +154,7 @@ public class Nota implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> Nota.getAPI().server = server);
 		ServerLifecycleEvents.SERVER_STOPPING.register(server -> Nota.getAPI().disabling = true);
 
-		//NotaCommands.onInitialize();
-		//CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NotaCommands.registerCommands(dispatcher));
+		NotaCommands.onInitialize();
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NotaCommands.registerCommands(dispatcher));
 	}
 }
