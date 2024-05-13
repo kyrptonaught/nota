@@ -188,7 +188,7 @@ public class NBSDecoder {
 				file = songFile.getName();
 			}
 			// TODO: logger here
-//			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Song is corrupted: " + file);
+			System.out.println("Song is corrupted: " + file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

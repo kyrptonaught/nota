@@ -24,7 +24,7 @@ public class InstrumentUtils {
 			instrumentName = warpNameOutOfRange(instrumentName, note.getKey(), note.getPitch());
 		}
 
-		instrumentName = instrumentName.toLowerCase().replaceAll("[^a-z0-9_.-:]", "");
+		instrumentName = instrumentName.toLowerCase().replaceAll("[^a-z0-9_.\\-:]", "");
 		//instrumentName = instrumentName.toLowerCase();
 		//System.out.println(instrumentName);
 		return SoundEvent.of(new Identifier(instrumentName));

@@ -71,14 +71,27 @@ public class NotaCommands {
 											int distance = IntegerArgumentType.getInteger(context, "distance");
 											boolean fade = BoolArgumentType.getBool(context, "fade");
 
-											Song song = getSong(context);
-											PositionSongPlayer songPlayer = new PositionSongPlayer(song, context.getSource().getWorld());
-											songPlayer.setBlockPos(blockPos);
-											songPlayer.setDistance(distance);
-											songPlayer.setFade(fade);
-
-											primeSongPlayer(songPlayer, context);
-											songPlayer.setPlaying(true);
+											new Thread(() -> {
+												System.out.println("Loading song");
+												try {
+													Song song = getSong(context);
+													PositionSongPlayer songPlayer = new PositionSongPlayer(song, context.getSource().getWorld());
+													songPlayer.setBlockPos(blockPos);
+													songPlayer.setDistance(distance);
+													songPlayer.setFade(fade);
+													context.getSource().getServer().execute(()->{
+														try {
+															primeSongPlayer(songPlayer, context);
+															songPlayer.setPlaying(true);
+															System.out.println("done");
+														}catch (Exception e){
+															e.printStackTrace();
+														}
+													});
+												} catch (Exception e) {
+													e.printStackTrace();
+												}
+											}).start();
 											return 1;
 										})))))
 						.then(CommandManager.literal("ENTITY")
@@ -134,7 +147,7 @@ public class NotaCommands {
 		String songFile = StringArgumentType.getString(context, "song").toLowerCase().replaceAll("[^a-z0-9_.-]", "");
 
 		songPlayer.setEnable10Octave(true);
-		songPlayer.setAutoDestroy(true);
+		songPlayer.setAutoDestroy(false);
 		songPlayer.setRepeatMode(looping ? RepeatMode.ALL : RepeatMode.NONE);
 		songPlayer.setId(new Identifier("nota", songFile));
 		players.forEach(songPlayer::addPlayer);
